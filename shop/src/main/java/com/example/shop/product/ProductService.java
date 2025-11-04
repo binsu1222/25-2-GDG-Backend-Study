@@ -1,6 +1,5 @@
 package com.example.shop.product;
 
-import com.example.shop.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +10,8 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public Long createProduct(ProductCreateRequest request) {
-        Long productId = productRepository.findByID(request.getId());
-        if (productId != null) {
+        Product prod = productRepository.findByID(request.getId());
+        if (prod != null) {
             throw new RuntimeException("이미 존재하는 상품입니다." + request.getId());
         }
         Product product = new Product (
