@@ -1,7 +1,10 @@
 package com.example.shop.order;
 
+import com.example.shop.order.dto.OrderCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +18,7 @@ public class OrderService {
             throw new RuntimeException("이미 존재하는 주문입니다." + request.getId());
         }
         orderRepository.create(order);
-        return Order.getId();
+        return order.getId();
     }
 
     public List<Order> getAllOrders() {
