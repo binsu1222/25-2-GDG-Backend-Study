@@ -1,4 +1,4 @@
-package com.example.shop.member;
+package com.example.shop.member.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,5 +47,9 @@ public class Member {
         if(address != null) {
             this.address = address;
         }
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

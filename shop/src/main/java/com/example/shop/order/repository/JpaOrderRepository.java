@@ -1,5 +1,6 @@
-package com.example.shop.order;
+package com.example.shop.order.repository;
 
+import com.example.shop.order.entity.Order;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class OrderRepository {
+public class JpaOrderRepository implements OrderRepository {
 
     @PersistenceContext
     private EntityManager em;

@@ -1,17 +1,23 @@
-package com.example.shop.order;
+package com.example.shop.order.service;
 
+import com.example.shop.order.entity.Order;
+import com.example.shop.order.repository.OrderRepository;
 import com.example.shop.order.dto.OrderCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
+    @Transactional
+    @Override
     public Long createOrder(OrderCreateRequest request) {
         Order order = orderRepository.findById(request.getId());
         if (order != null) {
@@ -21,10 +27,12 @@ public class OrderService {
         return order.getId();
     }
 
+    @Override
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
+    @Override
     public Order getOrderById(Long id) {
         Order order = orderRepository.findById(id);
         if (order == null) {
@@ -33,6 +41,8 @@ public class OrderService {
         return order;
     }
 
+    @Override
+    @Transactional
     public void deleteOrder(Long id) {
         Order order = orderRepository.findById(id);
         if (order == null) {

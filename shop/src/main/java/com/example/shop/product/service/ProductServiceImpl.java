@@ -1,5 +1,7 @@
-package com.example.shop.product;
+package com.example.shop.product.service;
 
+import com.example.shop.product.entity.Product;
+import com.example.shop.product.repository.ProductRepository;
 import com.example.shop.product.dto.ProductCreateRequest;
 import com.example.shop.product.dto.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +12,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
-public class ProductService {
+@Transactional(readOnly = true)
+public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
 
+    @Transactional
+    @Override
     public Long createProduct(ProductCreateRequest request) {
         Product prod = productRepository.findByKey(request.getPdkey());
         if (prod != null) {
@@ -29,10 +33,12 @@ public class ProductService {
         return product.getId();
     }
 
+    @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    @Override
     public Product getProductById(Long productId) {
         Product product = productRepository.findById(productId);
         if (product == null) {
@@ -41,6 +47,8 @@ public class ProductService {
         return product;
     }
 
+    @Transactional
+    @Override
     public void updateProduct(Long id, ProductUpdateRequest request) {
         Product product = productRepository.findById(id);
         if (product == null) {
@@ -49,6 +57,8 @@ public class ProductService {
         product.updateInfo(request.getName(), request.getPrice());
     }
 
+    @Transactional
+    @Override
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id);
         if (product == null) {

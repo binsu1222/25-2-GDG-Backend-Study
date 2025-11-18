@@ -1,5 +1,6 @@
-package com.example.shop.product;
+package com.example.shop.product.repository;
 
+import com.example.shop.product.entity.Product;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ProductRepository {
+public class JpaProductRepository implements ProductRepository {
     @PersistenceContext
     private EntityManager em;
 
