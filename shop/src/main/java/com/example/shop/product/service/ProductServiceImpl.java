@@ -1,5 +1,8 @@
 package com.example.shop.product.service;
 
+import com.example.shop.common.exception.BadRequestException;
+import com.example.shop.common.exception.NotFoundException;
+import com.example.shop.common.message.ErrorMessage;
 import com.example.shop.product.entity.Product;
 import com.example.shop.product.repository.ProductRepository;
 import com.example.shop.product.dto.ProductCreateRequest;
@@ -22,7 +25,7 @@ public class ProductServiceImpl implements ProductService{
     public Long createProduct(ProductCreateRequest request) {
         Product prod = productRepository.findByKey(request.getPdkey());
         if (prod != null) {
-            throw new RuntimeException("이미 존재하는 상품입니다." + request.getPdkey());
+            throw new BadRequestException(ErrorMessage.PRODUCT_ALREADY_EXISTS);
         }
         Product product = new Product (
                 request.getPdkey(),
@@ -42,7 +45,7 @@ public class ProductServiceImpl implements ProductService{
     public Product getProductById(Long productId) {
         Product product = productRepository.findById(productId);
         if (product == null) {
-            throw new RuntimeException ("상품을 찾을 수 없습니다.");
+            throw new NotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
         }
         return product;
     }
@@ -52,7 +55,7 @@ public class ProductServiceImpl implements ProductService{
     public void updateProduct(Long id, ProductUpdateRequest request) {
         Product product = productRepository.findById(id);
         if (product == null) {
-            throw new RuntimeException ("상품을 찾을 수 없습니다.");
+            throw new NotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
         }
         product.updateInfo(request.getName(), request.getPrice());
     }
@@ -62,7 +65,7 @@ public class ProductServiceImpl implements ProductService{
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id);
         if (product == null) {
-            throw new RuntimeException ("상품을 찾을 수 없습니다.");
+            throw new NotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
         }
         productRepository.deleteById(id);
     }

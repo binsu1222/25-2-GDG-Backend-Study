@@ -4,6 +4,8 @@ import com.example.shop.product.entity.Product;
 import com.example.shop.product.dto.ProductCreateRequest;
 import com.example.shop.product.dto.ProductUpdateRequest;
 import com.example.shop.product.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@Tag(name = "상품 관리", description = "상품 CRUD API")
 public class ProductController {
     private final ProductService productService;
 
     @PostMapping
+    @Operation(summary = "상품 생성")
     public ResponseEntity<Void> createProduct(@RequestBody ProductCreateRequest request) {
         Long productId = productService.createProduct(request);
         return ResponseEntity.created(URI.create("/products/" + productId)).build();
